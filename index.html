@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+  <style>
+    .container {
+      margin: 40px auto;
+      width: 80%;
+    }
+    body {
+      background-image: url("https://p4.wallpaperbetter.com/wallpaper/138/244/978/stars-astronomy-galaxy-wallpaper-preview.jpg");
+      background-repeat: no-repeat center center fixed;
+      color: white;
+      background-size: cover;
+    }
+    .button {
+      width: 160px;
+      height: 45px;
+      border-radius: 6px;
+      font-size: 15px;
+      margin-top: 20px;
+    }
+
+    .button:hover {
+      color: red;
+      border: 2px solid rgba(0, 0, 0, 0);
+      box-shadow: 0 0 0px var(--color);
+    }
+
+    .button::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--color);
+      z-index: -1;
+      transform: scale(0);
+      transition: 0.5s;
+    }
+
+    .button:hover::before {
+      transform: scale(1);
+      transition-delay: 0.5s;
+      box-shadow: 0 0 10px var(--color), 0 0 30px var(--color),
+        0 0 60px var(--color);
+    }
+
+    .button span {
+      position: absolute;
+      background: var(--color);
+      pointer-events: none;
+      border-radius: 2px;
+      box-shadow: 0 0 10px var(--color), 0 0 20px var(--color),
+        0 0 30px var(--color), 0 0 50px var(--color), 0 0 100px var(--color);
+      transition: 0.5s ease-in-out;
+      transition-delay: 0.25s;
+    }
+
+    .button:hover span {
+      opacity: 0;
+      transition-delay: 0s;
+    }
+
+    .button span:nth-child(1),
+    .button span:nth-child(3) {
+      width: 40px;
+      height: 4px;
+    }
+
+    .button:hover span:nth-child(1),
+    .button:hover span:nth-child(3) {
+      transform: translateX(0);
+    }
+
+    .button span:nth-child(2),
+    .button span:nth-child(4) {
+      width: 4px;
+      height: 40px;
+    }
+
+    .button:hover span:nth-child(1),
+    .button:hover span:nth-child(3) {
+      transform: translateY(0);
+    }
+
+    .button span:nth-child(1) {
+      top: calc(50% - 2px);
+      left: -50px;
+      transform-origin: left;
+    }
+
+    .button:hover span:nth-child(1) {
+      left: 50%;
+    }
+
+    .button span:nth-child(3) {
+      top: calc(50% - 2px);
+      right: -50px;
+      transform-origin: right;
+    }
+
+    .button:hover span:nth-child(3) {
+      right: 50%;
+    }
+
+    .button span:nth-child(2) {
+      left: calc(50% - 2px);
+      top: -50px;
+      transform-origin: top;
+    }
+
+    .button:hover span:nth-child(2) {
+      top: 50%;
+    }
+
+    .button span:nth-child(4) {
+      left: calc(50% - 2px);
+      bottom: -50px;
+      transform-origin: bottom;
+    }
+
+    .button:hover span:nth-child(4) {
+      bottom: 50%;
+    }
+    img {
+      width: 328px;
+      height: 287px;
+      display: block;
+      margin-bottom: 20px;
+    }
+    hr {
+      width: 400px;
+      margin-left: 0;
+    }
+    h3 {
+      display: inline-block;
+    }
+    #container {
+      display: none;
+    }
+    #container-edit {
+      display: none;
+    }
+    #container-edit input {
+      height: 32px;
+    }
+    #container-edit hr {
+      margin: 25px 0;
+    }
+    #container-edit input {
+      width: 195px;
+      font-size: 15px;
+    }
+    @import url("https://fonts.googleapis.com/css?family=Raleway");
+
+    :root {
+      --glow-color: hsl(186 100% 69%);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: black;
+    }
+
+    .glowing-btn {
+      position: relative;
+      color: var(--glow-color);
+      cursor: pointer;
+      padding: 0.35em 1em;
+      border: 0.15em solid var(--glow-color);
+      border-radius: 0.45em;
+      background: none;
+      perspective: 2em;
+      font-family: "Raleway", sans-serif;
+      font-size: 2em;
+      font-weight: 900;
+      letter-spacing: 1em;
+
+      -webkit-box-shadow: inset 0px 0px 0.5em 0px var(--glow-color),
+        0px 0px 0.5em 0px var(--glow-color);
+      -moz-box-shadow: inset 0px 0px 0.5em 0px var(--glow-color),
+        0px 0px 0.5em 0px var(--glow-color);
+      box-shadow: inset 0px 0px 0.5em 0px var(--glow-color),
+        0px 0px 0.5em 0px var(--glow-color);
+      animation: border-flicker 2s linear infinite;
+    }
+
+    .glowing-txt {
+      float: left;
+      margin-right: -0.8em;
+      -webkit-text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3),
+        0 0 0.45em var(--glow-color);
+      -moz-text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3),
+        0 0 0.45em var(--glow-color);
+      text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3),
+        0 0 0.45em var(--glow-color);
+      animation: text-flicker 3s linear infinite;
+    }
+
+    .faulty-letter {
+      opacity: 0.5;
+      animation: faulty-flicker 2s linear infinite;
+    }
+
+    .glowing-btn::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      opacity: 0.7;
+      filter: blur(1em);
+      transform: translateY(120%) rotateX(95deg) scale(1, 0.35);
+      background: var(--glow-color);
+      pointer-events: none;
+    }
+
+    .glowing-btn::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      opacity: 0;
+      z-index: -1;
+      background-color: var(--glow-color);
+      box-shadow: 0 0 2em 0.2em var(--glow-color);
+      transition: opacity 100ms linear;
+    }
+
+    .glowing-btn:hover {
+      color: rgba(0, 0, 0, 0.8);
+      text-shadow: none;
+      animation: none;
+    }
+
+    .glowing-btn:hover .glowing-txt {
+      animation: none;
+    }
+
+    .glowing-btn:hover .faulty-letter {
+      animation: none;
+      text-shadow: none;
+      opacity: 1;
+    }
+
+    .glowing-btn:hover:before {
+      filter: blur(1.5em);
+      opacity: 1;
+    }
+
+    .glowing-btn:hover:after {
+      opacity: 1;
+    }
+
+    @keyframes faulty-flicker {
+      0% {
+        opacity: 0.1;
+      }
+      2% {
+        opacity: 0.1;
+      }
+      4% {
+        opacity: 0.5;
+      }
+      19% {
+        opacity: 0.5;
+      }
+      21% {
+        opacity: 0.1;
+      }
+      23% {
+        opacity: 1;
+      }
+      80% {
+        opacity: 0.5;
+      }
+      83% {
+        opacity: 0.4;
+      }
+
+      87% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes text-flicker {
+      0% {
+        opacity: 0.1;
+      }
+
+      2% {
+        opacity: 1;
+      }
+
+      8% {
+        opacity: 0.1;
+      }
+
+      9% {
+        opacity: 1;
+      }
+
+      12% {
+        opacity: 0.1;
+      }
+      20% {
+        opacity: 1;
+      }
+      25% {
+        opacity: 0.3;
+      }
+      30% {
+        opacity: 1;
+      }
+
+      70% {
+        opacity: 0.7;
+      }
+      72% {
+        opacity: 0.2;
+      }
+
+      77% {
+        opacity: 0.9;
+      }
+      100% {
+        opacity: 0.9;
+      }
+    }
+
+    @keyframes border-flicker {
+      0% {
+        opacity: 0.1;
+      }
+      2% {
+        opacity: 1;
+      }
+      4% {
+        opacity: 0.1;
+      }
+
+      8% {
+        opacity: 1;
+      }
+      70% {
+        opacity: 0.7;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    @media only screen and (max-width: 600px) {
+      .glowing-btn {
+        font-size: 1em;
+      }
+    }
+  </style>
+  <script>
+    (async function init() {
+      const response = await fetch("http://localhost:3000/get-profile");
+      console.log("response", response);
+      const user = await response.json();
+      console.log(JSON.stringify(user));
+
+      document.getElementById("name").textContent = user.name
+        ? user.name
+        : "Anna Smith";
+      document.getElementById("email").textContent = user.email
+        ? user.email
+        : "anna.smith@example.com";
+      document.getElementById("interests").textContent = user.interests
+        ? user.interests
+        : "coding";
+
+      const cont = document.getElementById("container");
+      cont.style.display = "block";
+    })();
+
+    async function handleUpdateProfileRequest() {
+      const contEdit = document.getElementById("container-edit");
+      const cont = document.getElementById("container");
+
+      const payload = {
+        name: document.getElementById("input-name").value,
+        email: document.getElementById("input-email").value,
+        interests: document.getElementById("input-interests").value,
+      };
+
+      const response = await fetch("http://localhost:3000/update-profile", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+      const jsonResponse = await response.json();
+
+      document.getElementById("name").textContent = jsonResponse.name;
+      document.getElementById("email").textContent = jsonResponse.email;
+      document.getElementById("interests").textContent = jsonResponse.interests;
+
+      cont.style.display = "block";
+      contEdit.style.display = "none";
+    }
+
+    function updateProfile() {
+      const contEdit = document.getElementById("container-edit");
+      const cont = document.getElementById("container");
+
+      document.getElementById("input-name").value =
+        document.getElementById("name").textContent;
+      document.getElementById("input-email").value =
+        document.getElementById("email").textContent;
+      document.getElementById("input-interests").value =
+        document.getElementById("interests").textContent;
+
+      cont.style.display = "none";
+      contEdit.style.display = "block";
+    }
+  </script>
+  <body>
+    <div class="container" id="container">
+      <h1>User profile</h1>
+      <img src="profile-picture" alt="user-profile" />
+      <span>Name: </span>
+      <h3 id="name">Anna Smith</h3>
+      <hr />
+      <span>Email: </span>
+      <h3 id="email">anna.smith@example.com</h3>
+      <hr />
+      <span>Interests: </span>
+      <h3 id="interests">coding</h3>
+      <hr />
+      <button class="button" onclick="updateProfile()">Edit Profile</button>
+    </div>
+    <div class="container" id="container-edit">
+      <h1>User profile</h1>
+      <img src="profile-picture" alt="user-profile" />
+      <span>Name: </span><label for="input-name"></label
+      ><input type="text" id="input-name" value="Anna Smith" />
+      <hr />
+      <span>Email: </span><label for="input-email"></label
+      ><input type="email" id="input-email" value="anna.smith@example.com" />
+      <hr />
+      <span>Interests: </span><label for="input-interests"></label
+      ><input type="text" id="input-interests" value="coding" />
+      <hr />
+      <button class="button" onclick="handleUpdateProfileRequest()">
+        Update Profile
+      </button>
+      <button class="glowing-btn">
+        <span class="glowing-txt"
+          >C<span class="faulty-letter">L</span>ICK</span
+        >
+      </button>
+    </div>
+  </body>
+</html>
